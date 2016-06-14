@@ -1,6 +1,6 @@
 var app = angular.module('flapperNews',['ui.router']);
 
-app.factory('posts',[function(){
+app.factory('posts',['$http',function($http){
 
 	var o = {
 		posts: [{title: 'post 1', upvotes: 5},
@@ -50,6 +50,11 @@ app.controller('PostsCtrl', [
 		};
 		$scope.incrementUpvotes = function(comment){
 			comment.upvotes += 1;
+		};
+		o.getAll = function() {
+			return $http.get('/posts').success(function(data){
+				angular.copy(data, o.posts);
+			});
 		};
 		
 	}]);
